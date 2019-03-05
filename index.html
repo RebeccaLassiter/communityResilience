@@ -1,88 +1,84 @@
 <html>
 
 
-<head> Community Risk Score </head>
 
-<body> 
+	<body style="background-color: #fdfffc; font-family: sans-serif"> 
 
-	<form id="userInput"> 
-	Housing Affordability: <input type="text" id="Affordability" >
-	Housing Condition: <input type="text" id="Condition">
-	Age: <input type="text" id = "Age">
-	Healthcare Availability: <input type="text" id = "Health">
-	Income: <input type="text" id= "Income">
+		<p style="font-size: larger">  Your Community's Resilience in the Face of Natural Disaster </p>
+		<div id = "left" style="float: left">
+			<form id="userInput"> 
+				<p> Housing Affordability: <input type="text" id="Affordability" value=12> </p>
+				<p>Housing Condition: <input type="text" id="Condition" value=5> </p>
+				<p>Age: <input type="text" id = "Age" value=7></p>
+				<p>Healthcare Availability: <input type="text" id = "Health" value=18></p>
+				<p>Income: <input type="text" id= "Income"></p>
 
-	<input type="submit" value="Submit" onclick = "return drawChart();">
-	</form>
-</body>
+				<input type="submit" value="Submit" onclick = "return drawChart();">
+			</form>
+		</div>
+		<div id = "right" style="float: right; padding-right: 200px;">
+			<p> Your Score is: Blah Blah Blah </p>
+		</div>
 
-<canvas id="myChart"></canvas>
+
+		<canvas id="myChart"></canvas>
+	</body>
+
+	
+
+</html>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
 <script>
 
-//on buttonclick, the data inputted by user is put into array myData
-
-//var Aff = document.getElementById('Affordability').value;; 
+//accesses user=inputted data
 function getData(){
-	var form = document.getElementById('userInput');
-	Aff = document.getElementById('Affordability').value;
-	//Aff += form.elements[0].value;
-	console.log("aff element is");
-	console.log(Aff);
-	//var Aff = 22;
-	return [Aff, 5, 5, 5, 5];
+	var Aff = document.getElementById('Affordability').value;
+	var Cond = document.getElementById('Condition').value;
+	var Age = document.getElementById('Age').value;
+	var Health = document.getElementById('Health').value;
+	var Income = document.getElementById('Income').value;
+
+	return [Aff, Cond, Age, Health, Income];
+
 }
  
-
-//myData = getData();
+//need to weight the inputs/scale vs median quartiles
 
 function drawChart(){
 
-var myData = getData();
-var ctx = document.getElementById('myChart').getContext('2d');
-var myRadarChart = new Chart(ctx, {
-    type: 'radar',
-    data: {
-    	labels: ['Housing Affordability', 'Housing Condition', 'Age', 'Healthcare Availability', 'Income'],
-    	datasets: [{
-       				data: myData
-    			}],
-	
-    	
-	},
+	var myData = getData();
+	var ctx = document.getElementById('myChart').getContext('2d');
+	var myRadarChart = new Chart(ctx, {
+	    type: 'radar',
+	    data: {
+	    	labels: ['Housing Affordability', 'Housing Condition', 'Age', 'Healthcare Availability', 'Income'],
+	    	datasets: [{
+	       				data: myData,
+	       				backgroundColor: 'rgba(255, 255, 0, .5)', 
+	       				borderColor: 'rgba(35, 87, 137, .5)', 
+	       				borderWidth: 1, 
+	       				label: "Resilience Compared to Median"
+	    			}],
+	    		
+		},
 
-	
+	    options: {
+	    	layout: {
+            padding: {
+                left: 200,
+                right: 200,
+                top: 0,
+                bottom: 800
+        	}
+        	}
+	    }
+	});
 
-    options: { backgroundColor: "#3185fc", 
-    			borderWidth: 500
-    }
-});
-return false;
-
+	return false;
 }
 
-//drawChart();
-
-/*var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'line',
-
-    // The data for our dataset
-    data: {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
-        datasets: [{
-            label: "My First dataset",
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45],
-        }]
-    },
-
-    // Configuration options go here
-    options: {}
-});*/
 </script>
 
 
-</html>
