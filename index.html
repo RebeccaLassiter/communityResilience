@@ -1,32 +1,68 @@
 <html>
 
 
-<head> Hurricane Projection </head>
+<head> Community Risk Score </head>
 
 <body> 
-	<p> test test test </p>
+
+	<form id="userInput"> 
+	Housing Affordability: <input type="text" id="Affordability" >
+	Housing Condition: <input type="text" id="Condition">
+	Age: <input type="text" id = "Age">
+	Healthcare Availability: <input type="text" id = "Health">
+	Income: <input type="text" id= "Income">
+
+	<input type="submit" value="Submit" onclick = "return drawChart();">
+	</form>
 </body>
 
 <canvas id="myChart"></canvas>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
 <script>
+
+//on buttonclick, the data inputted by user is put into array myData
+
+//var Aff = document.getElementById('Affordability').value;; 
+function getData(){
+	var form = document.getElementById('userInput');
+	Aff = document.getElementById('Affordability').value;
+	//Aff += form.elements[0].value;
+	console.log("aff element is");
+	console.log(Aff);
+	//var Aff = 22;
+	return [Aff, 5, 5, 5, 5];
+}
+ 
+
+//myData = getData();
+
+function drawChart(){
+
+var myData = getData();
 var ctx = document.getElementById('myChart').getContext('2d');
-
-
 var myRadarChart = new Chart(ctx, {
     type: 'radar',
     data: {
     	labels: ['Housing Affordability', 'Housing Condition', 'Age', 'Healthcare Availability', 'Income'],
     	datasets: [{
-       				data: [20, 10, 4, 2, 15]
-    			}]
-	}
+       				data: myData
+    			}],
+	
+    	
+	},
 
-    //options: options
+	
+
+    options: { backgroundColor: "#3185fc", 
+    			borderWidth: 500
+    }
 });
+return false;
 
+}
 
+//drawChart();
 
 /*var chart = new Chart(ctx, {
     // The type of chart we want to create
