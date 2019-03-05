@@ -7,5 +7,46 @@
 	<p> test test test </p>
 </body>
 
+<canvas id="myChart"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+
+
+var myRadarChart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+    	labels: ['Housing Affordability', 'Housing Condition', 'Age', 'Healthcare Availability', 'Income'],
+    	datasets: [{
+       				data: [20, 10, 4, 2, 15]
+    			}]
+	}
+
+    //options: options
+});
+
+
+
+/*var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45],
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});*/
+</script>
+
 
 </html>
