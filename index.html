@@ -1,27 +1,39 @@
+
+
 <html>
 
-
-
+	<head>
+		<link rel="stylesheet" href="tool.css">
+	</head>
 	<body style="background-color: #fdfffc; font-family: sans-serif"> 
 
 		<p style="font-size: larger">  Your Community's Resilience in the Face of Natural Disaster </p>
 		<div id = "left" style="float: left">
 			<form id="userInput"> 
-				<p> Housing Affordability: <input type="text" id="Affordability" value=12> </p>
-				<p>Housing Condition: <input type="text" id="Condition" value=5> </p>
-				<p>Age: <input type="text" id = "Age" value=7></p>
-				<p>Healthcare Availability: <input type="text" id = "Health" value=18></p>
-				<p>Income: <input type="text" id= "Income"></p>
+				<p class = "label">Median Unemployment Rate </p>
+				<p><input type="text" id="Opp" class = "box" value=4> </p>
+				<p class = "label">Housing Density</p>
+				<p> <input type="text" id="Housing" class = "box" value=50> </p>
+				<p class = "label">Percent of Population under age 18 or older age 65</p>
+				<p> <input type="text" id = "Age" class = "box" value=12></p>
+				<p class = "label">Number of Practicing Physicians per 1000 residents </p>
+				<p><input type="text" id = "Health" value=2 class = "box"></p>
+				<p class = "label">Income</p>
+				<p> <input type="text" id= "Income" value=40000 class = "box"></p>
 
-				<input type="submit" value="Submit" onclick = "return drawChart();">
+				<input type="submit" value="Submit" onclick = "return drawChart();" class='sub'>
 			</form>
 		</div>
 		<div id = "right" style="float: right; padding-right: 200px;">
-			<p> Your Score is: Blah Blah Blah </p>
+			<p> Your Resilience Score </p>
+			<p id = "score"> </p>
 		</div>
 
-
 		<canvas id="myChart"></canvas>
+
+		<div class = "suggestions"> 
+			Suggestions
+		</div>
 	</body>
 
 	
@@ -33,45 +45,95 @@
 <script>
 
 //accesses user=inputted data
-function getData(){
-	var Aff = document.getElementById('Affordability').value;
-	var Cond = document.getElementById('Condition').value;
-	var Age = document.getElementById('Age').value;
-	var Health = document.getElementById('Health').value;
-	var Income = document.getElementById('Income').value;
+//weight user-inputted data to make it a percentile of Florida's Statistics
 
-	return [Aff, Cond, Age, Health, Income];
+//average unemployment rate
+
+function getData(){
+	//numbers from ACS data
+	//randomVals
+	var medianOpp = 4; 
+	var medianHouse = 30; 
+	var medianAge = 40; 
+
+	//legit
+	var medianHealth = 2.192;
+	//number of practicing physicians per 1000 people
+	//45,995 practicing physicians divided by 20.98 million
+	
+	var medianIncome = 50883; 
+
+
+	//user inputs 4% unemployment rate, median unemp is 5%, 4/5. is 80th percentile.  We have High employment opportunities.  of unemployment? 
+	//Totally yellow would be 
+	var Opp = (document.getElementById('Opp').value)/medianOpp;
+
+	var House = (document.getElementById('Housing').value)/medianHouse;
+	var Age = (document.getElementById('Age').value)/medianAge;
+	var Health = (document.getElementById('Health').value)/medianHealth;
+
+	//if my income is 40,000 and median is 50,000
+	//your measurement is WHAT percent of the median
+	//scale could be 0-2 aka 0-200, 100= equal to median, 200= twice as much as median?  
+	var Income = (document.getElementById('Income').value)/medianIncome;
+
+	return [Opp, House, Age, Health, Income];
+
+}
+
+function calcScore(){
+	var Opp = (((document.getElementById('Opp').value)/1.072279303)*-0.0694778113)+0.6;
+	var House = (((document.getElementById('Housing').value)/0.004933943161)*-0.03561319556)+0.6;
+	var Age = (((document.getElementById('Age').value)/0.05521553508)*-0.01802897382)+0.6;
+	var Health = (((document.getElementById('Health').value)/23.90564484)*0.06327089716)+0.6;
+	var Income = (((document.getElementById('Income').value)/9125.578246)*0.07211992592)+0.6;
+
+	console.log(Opp);
+	console.log(House);
+	console.log(Age);
+	console.log(Health);
+	console.log(Income);
+	var Score = Opp + House + Age + Health + Income; 
+
+	document.getElementById("score").innerHTML =Score; 
 
 }
  
 //need to weight the inputs/scale vs median quartiles
 
 function drawChart(){
-
+	calcScore();
 	var myData = getData();
 	var ctx = document.getElementById('myChart').getContext('2d');
 	var myRadarChart = new Chart(ctx, {
 	    type: 'radar',
 	    data: {
-	    	labels: ['Housing Affordability', 'Housing Condition', 'Age', 'Healthcare Availability', 'Income'],
+	    	labels: ['Employment Opportunities', 'Housing Density', 'Age', 'Healthcare Availability', 'Income'],
 	    	datasets: [{
 	       				data: myData,
 	       				backgroundColor: 'rgba(255, 255, 0, .5)', 
 	       				borderColor: 'rgba(35, 87, 137, .5)', 
 	       				borderWidth: 1, 
-	       				label: "Resilience Compared to Median"
+	       				label: "Resilience as a Percentile"
 	    			}],
 	    		
 		},
 
 	    options: {
+	    	//scale: {display:false},
+
 	    	layout: {
-            padding: {
-                left: 200,
-                right: 200,
-                top: 0,
-                bottom: 800
-        	}
+	            padding: {
+	                left: 200,
+	                right: 200,
+	                top: 0,
+	                bottom: 800
+	        	},
+
+	        	margin: {
+	        		left:200,
+	        		top: 400
+        		}
         	}
 	    }
 	});
