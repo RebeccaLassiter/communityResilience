@@ -32,3 +32,20 @@ p{
 	margin-top: 10px;
 }
 
+#right{
+	margin-top: 80px;
+	float: right;
+	padding-right: 200px;
+}
+
+#scoreLabel{
+	font-size: 180%;
+	font-weight: bold;
+}
+
+#score{
+	font-size: 400%;
+	color: #235789;
+	font-weight: bold;
+	text-align: center;
+}

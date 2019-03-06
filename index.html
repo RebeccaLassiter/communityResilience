@@ -7,25 +7,29 @@
 	</head>
 	<body style="background-color: #fdfffc; font-family: sans-serif"> 
 
-		<p style="font-size: larger">  Your Community's Resilience in the Face of Natural Disaster </p>
+		<p style="font-size: 200%">  Your Community's Resilience in the Face of Natural Disaster </p>
 		<div id = "left" style="float: left">
 			<form id="userInput"> 
 				<p class = "label">Median Unemployment Rate </p>
 				<p><input type="text" id="Opp" class = "box" value=4> </p>
+
 				<p class = "label">Housing Density</p>
-				<p> <input type="text" id="Housing" class = "box" value=50> </p>
+				<p> <input type="text" id="Housing" class = "box" value=.009> </p>
+
 				<p class = "label">Percent of Population under age 18 or older age 65</p>
-				<p> <input type="text" id = "Age" class = "box" value=12></p>
+				<p> <input type="text" id = "Age" class = "box" value=.50></p>
+
 				<p class = "label">Number of Practicing Physicians per 1000 residents </p>
-				<p><input type="text" id = "Health" value=2 class = "box"></p>
+				<p><input type="text" id = "Health" value=40 class = "box"></p>
+
 				<p class = "label">Income</p>
 				<p> <input type="text" id= "Income" value=40000 class = "box"></p>
 
 				<input type="submit" value="Submit" onclick = "return drawChart();" class='sub'>
 			</form>
 		</div>
-		<div id = "right" style="float: right; padding-right: 200px;">
-			<p> Your Resilience Score </p>
+		<div id = "right">
+			<p id = "scoreLabel"> Your Resilience Score </p>
 			<p id = "score"> </p>
 		</div>
 
@@ -50,18 +54,12 @@
 //average unemployment rate
 
 function getData(){
-	//numbers from ACS data
-	//randomVals
-	var medianOpp = 4; 
-	var medianHouse = 30; 
-	var medianAge = 40; 
-
-	//legit
-	var medianHealth = 2.192;
-	//number of practicing physicians per 1000 people
-	//45,995 practicing physicians divided by 20.98 million
-	
-	var medianIncome = 50883; 
+	//numbers from FEMA data
+	var medianOpp = 6.555223881; 
+	var medianHouse = 0.008242087463;                   
+	var medianAge = 0.4048208955;                      
+	var medianHealth = 52.8880597;
+	var medianIncome = 47144.32836; 
 
 
 	//user inputs 4% unemployment rate, median unemp is 5%, 4/5. is 80th percentile.  We have High employment opportunities.  of unemployment? 
@@ -88,12 +86,8 @@ function calcScore(){
 	var Health = (((document.getElementById('Health').value)/23.90564484)*0.06327089716)+0.6;
 	var Income = (((document.getElementById('Income').value)/9125.578246)*0.07211992592)+0.6;
 
-	console.log(Opp);
-	console.log(House);
-	console.log(Age);
-	console.log(Health);
-	console.log(Income);
 	var Score = Opp + House + Age + Health + Income; 
+	Score = Math.round(Score);
 
 	document.getElementById("score").innerHTML =Score; 
 
@@ -114,13 +108,18 @@ function drawChart(){
 	       				backgroundColor: 'rgba(255, 255, 0, .5)', 
 	       				borderColor: 'rgba(35, 87, 137, .5)', 
 	       				borderWidth: 1, 
-	       				label: "Resilience as a Percentile"
+	       				label: "Resilience as a Percent of Median"
 	    			}],
 	    		
 		},
 
 	    options: {
-	    	//scale: {display:false},
+	    	scale: {
+	    		ticks:{
+	    			min: 0,
+	    			max: 3
+	    		}
+	    	},
 
 	    	layout: {
 	            padding: {
