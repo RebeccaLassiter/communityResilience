@@ -10,10 +10,10 @@
 		<p style="font-size: 200%">  Your Community's Resilience in the Face of Natural Disaster </p>
 		<div id = "left" style="float: left">
 			<form id="userInput"> 
-				<p class = "label">Median Unemployment Rate </p>
+				<p class = "label">Unemployment Rate </p>
 				<p><input type="text" id="Opp" class = "box" value=4> </p>
 
-				<p class = "label">Housing Density</p>
+				<p class = "label">Housing Density as Percentage</p>
 				<p> <input type="text" id="Housing" class = "box" value=.009> </p>
 
 				<p class = "label">Percent of Population under age 18 or older age 65</p>
@@ -36,7 +36,9 @@
 		<canvas id="myChart"></canvas>
 
 		<div class = "suggestions"> 
-			Suggestions
+			<p id="polTitle"> Policy Suggestions </p>
+			<p id="empSugg"> Here is an employment suggestion woohoo. fix your unemployment. more jobs </p>
+			<p id ="healthSugg"> Here is a policy suggestion to improve health </p>
 		</div>
 	</body>
 
@@ -56,8 +58,8 @@
 function getData(){
 	//numbers from FEMA data
 	var medianOpp = 6.555223881; 
-	var medianHouse = 0.008242087463;                   
-	var medianAge = 0.4048208955;                      
+	var medianHouse = 0.008242087463;   //percentage                
+	var medianAge = .4048208955;   //percentage                    
 	var medianHealth = 52.8880597;
 	var medianIncome = 47144.32836; 
 
@@ -87,16 +89,21 @@ function calcScore(){
 	var Income = (((document.getElementById('Income').value)/9125.578246)*0.07211992592)+0.6;
 
 	var Score = Opp + House + Age + Health + Income; 
-	Score = Math.round(Score);
+	//round it to third decimal place 
+	Score = Math.round(Score*1000)/1000;
 
 	document.getElementById("score").innerHTML =Score; 
 
 }
  
-//need to weight the inputs/scale vs median quartiles
+
+function suggestions(){
+	var title = document.getElementById()
+}
 
 function drawChart(){
 	calcScore();
+	//suggestions();
 	var myData = getData();
 	var ctx = document.getElementById('myChart').getContext('2d');
 	var myRadarChart = new Chart(ctx, {
