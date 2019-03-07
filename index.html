@@ -11,19 +11,19 @@
 		<div id = "left" style="float: left">
 			<form id="userInput"> 
 				<p class = "label">Unemployment Rate </p>
-				<p><input type="text" id="Opp" class = "box" value=4> </p>
+				<p><input type="text" id="Opp" class = "box" > </p>
 
 				<p class = "label">Housing Density as Percentage</p>
-				<p> <input type="text" id="Housing" class = "box" value=.009> </p>
+				<p> <input type="text" id="Housing" class = "box" > </p>
 
 				<p class = "label">Percent of Population under age 18 or older age 65</p>
-				<p> <input type="text" id = "Age" class = "box" value=.50></p>
+				<p> <input type="text" id = "Age" class = "box" ></p>
 
-				<p class = "label">Number of Practicing Physicians per 1000 residents </p>
-				<p><input type="text" id = "Health" value=40 class = "box"></p>
+				<p class = "label">Number of Practicing Physicians per 1,000,000 residents </p>
+				<p><input type="text" id = "Health" class = "box"></p>
 
 				<p class = "label">Income</p>
-				<p> <input type="text" id= "Income" value=40000 class = "box"></p>
+				<p> <input type="text" id= "Income" class = "box"></p>
 
 				<input type="submit" value="Submit" onclick = "return drawChart();" class='sub'>
 			</form>
@@ -37,8 +37,29 @@
 
 		<div class = "suggestions"> 
 			<p id="polTitle"> Policy Suggestions </p>
-			<p id="empSugg"> Here is an employment suggestion woohoo. fix your unemployment. more jobs </p>
-			<p id ="healthSugg"> Here is a policy suggestion to improve health </p>
+
+		
+			<div id="empSuggBad" class="sugg"> 
+
+			</div>
+
+			<div id = "healthSuggBad"class="sugg"> 
+				
+			</div>
+
+			
+			<div id= "ageSuggBad"class="sugg"> 
+			
+			</div>
+
+			<div id="houseSuggBad"class="sugg"> 
+				
+			</div>
+
+
+			<div id = "incomeSuggBad"class="sugg"> 
+				
+			</div>
 		</div>
 	</body>
 
@@ -57,24 +78,16 @@
 
 function getData(){
 	//numbers from FEMA data
-	var medianOpp = 6.555223881; 
-	var medianHouse = 0.008242087463;   //percentage                
-	var medianAge = .4048208955;   //percentage                    
+	var medianOpp = 100 - 6.555223881; 
+	var medianHouse = 1 - 0.008242087463;   //percentage                
+	var medianAge = 1 -.4048208955;   //percentage                    
 	var medianHealth = 52.8880597;
 	var medianIncome = 47144.32836; 
 
-
-	//user inputs 4% unemployment rate, median unemp is 5%, 4/5. is 80th percentile.  We have High employment opportunities.  of unemployment? 
-	//Totally yellow would be 
-	var Opp = (document.getElementById('Opp').value)/medianOpp;
-
-	var House = (document.getElementById('Housing').value)/medianHouse;
-	var Age = (document.getElementById('Age').value)/medianAge;
+	var Opp = (100 -(document.getElementById('Opp').value))/medianOpp; //if opp is 1.5 times the median for unemployment rate, really its below the median for employment rate
+	var House = (1 -(document.getElementById('Housing').value))/medianHouse;
+	var Age = (1 - (document.getElementById('Age').value))/medianAge;
 	var Health = (document.getElementById('Health').value)/medianHealth;
-
-	//if my income is 40,000 and median is 50,000
-	//your measurement is WHAT percent of the median
-	//scale could be 0-2 aka 0-200, 100= equal to median, 200= twice as much as median?  
 	var Income = (document.getElementById('Income').value)/medianIncome;
 
 	return [Opp, House, Age, Health, Income];
@@ -97,14 +110,51 @@ function calcScore(){
 }
  
 
-function suggestions(){
-	var title = document.getElementById()
+function suggestions(dataArray){
+
+	document.getElementById("polTitle").style.visibility='visible';
+
+	if(dataArray[0] < 1){
+		document.getElementById("empSuggBad").innerHTML="<p class=\"title\"> Employment Suggestion </p> Given the relatively high unemployment rate of your county compared to the state median unemployment rate, you need to take special considerations with the after-disaster aid offered to your constituents";
+		
+	}
+	else{
+		document.getElementById("empSuggBad").innerHTML="";
+	}
+	if(dataArray[1] < 1){
+		document.getElementById("houseSuggBad").innerHTML="<p class=\"title\"> Housing Policy Suggestion </p>Your county’s percentage of homes which have more than 1.5 people per room is relatively high compared to the state median. Recommended mitigation procedures include making a policy subsidize rent for the low-income households. Additionally, consider taking advantage of the Hurricane Loss Mitigation Program and the Hurricane Loss Mitigation Program Retrofit Grant through the Florida Division of Emergency Management.";
+		
+	}
+	else{
+		document.getElementById("houseSuggBad").innerHTML="";
+	}
+	if(dataArray[2] < 1){
+		document.getElementById("ageSuggBad").innerHTML="	<p class=\"title\"> Vulnerable Age Policy Recommendation </p><p>The proportion of residents older than 65 and/or younger than 18 years old is higher than Florida's Median. Your county has high age vulnerability. You should consider allocating more resources to transportation and special housing units for your vulnerable population. Additionally, consider taking advantage of FEMA’s Hazard Mitigation Procedure.</p>";
+		
+	}
+	else{
+		document.getElementById("ageSuggBad").innerHTML="";
+	}
+	if(dataArray[3] < 1){
+		document.getElementById("healthSuggBad").innerHTML="<p class=\"title\"> Health Policy Recommendation </p> The number of primary care physicians per 100,000 residents in your country is relatively low compared to the state median. Recommended mitigation procedures include creating more job opportunities for primary care physicians.";
+
+	}
+	else{
+		document.getElementById("healthSuggBad").innerHTML="";
+	}
+	if(dataArray[4] < 1){
+		document.getElementById("incomeSuggBad").innerHTML="<p class=\"title\"> Income Policy Suggestion </p><p>Your county’s per capita income is relative low compared to the state median. You should consider allocating more resources to after-disaster aid availability for your disadvantaged households.</p>";
+		
+	}
+	else{
+		document.getElementById("incomeSuggBad").innerHTML="";
+	}
 }
 
 function drawChart(){
 	calcScore();
-	//suggestions();
 	var myData = getData();
+	suggestions(myData);
 	var ctx = document.getElementById('myChart').getContext('2d');
 	var myRadarChart = new Chart(ctx, {
 	    type: 'radar',

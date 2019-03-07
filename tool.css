@@ -15,11 +15,16 @@ p{
 	margin-top: 10px;
 }
 
-.suggestions{
+#polTitle{
 	visibility: hidden;
+	font-weight: bolder;
+	font-size: 200%;
+	margin:20px;
 }
 
-
+.suggestions{
+	margin-top: -800px;
+}
 
 .box{
 	width: 100%;
@@ -51,4 +56,12 @@ p{
 	color: #235789;
 	font-weight: bold;
 	text-align: center;
+}
+
+.sugg{
+	margin:20px;
+}
+
+.title{
+	font-weight: bold;
 }
