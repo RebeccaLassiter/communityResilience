@@ -31,6 +31,12 @@
 		<div id = "right">
 			<p id = "scoreLabel"> Your Resilience Score </p>
 			<p id = "score"> </p>
+			<p style="font-weight: bolder"> Florida's State Median Values </p>
+			<p>	Unemployment Rate: 6.555223881 </p>
+			<p> Housing Density: 0.008242087463</p>                 
+			<p> Median Age = .4048208955 </p>                  
+			<p> medianHealth = 52.8880597 <p>
+			<p> var medianIncome = 47144.32836; </p>
 		</div>
 
 		<canvas id="myChart"></canvas>
@@ -166,7 +172,13 @@ function drawChart(){
 	       				borderColor: 'rgba(35, 87, 137, .5)', 
 	       				borderWidth: 1, 
 	       				label: "Resilience as a Percent of Median"
-	    			}],
+	    				}, 
+	    			  {
+	    			  	data: [1, 1, 1, 1, 1],
+	    			  	label: "State Median",
+	    			  	backgroundColor: 'rgba(193, 41, 46, .5)' , 
+	    			  	borderWidth: 1
+	    			  }],
 	    		
 		},
 
