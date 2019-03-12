@@ -13,10 +13,10 @@
 				<p class = "label">Unemployment Rate </p>
 				<p><input type="text" id="Opp" class = "box" > </p>
 
-				<p class = "label">Housing Density as Percentage</p>
+				<p class = "label">Percent Housing Density (enter as decimal value)</p>
 				<p> <input type="text" id="Housing" class = "box" > </p>
 
-				<p class = "label">Percent of Population under age 18 or older age 65</p>
+				<p class = "label">Percent of Population under age 18 or older age 65 (enter as decimal value)</p>
 				<p> <input type="text" id = "Age" class = "box" ></p>
 
 				<p class = "label">Number of Practicing Physicians per 1,000,000 residents </p>
@@ -26,17 +26,18 @@
 				<p> <input type="text" id= "Income" class = "box"></p>
 
 				<input type="submit" value="Submit" onclick = "return drawChart();" class='sub'>
+				<p style="font-weight: bolder"> Florida's State Median Values </p>
+			<p>	Unemployment Rate: 6.55% </p>
+			<p> Housing Density: 8.24%</p>                 
+			<p> Vulnerable Age: 40.4%</p>                  
+			<p> Number of Practicing Physicians per 1,000,000 residents: 52.8 <p>
+			<p> Income: $47144; </p>
 			</form>
 		</div>
 		<div id = "right">
 			<p id = "scoreLabel"> Your Resilience Score </p>
 			<p id = "score"> </p>
-			<p style="font-weight: bolder"> Florida's State Median Values </p>
-			<p>	Unemployment Rate: 6.555223881 </p>
-			<p> Housing Density: 0.008242087463</p>                 
-			<p> Median Age = .4048208955 </p>                  
-			<p> medianHealth = 52.8880597 <p>
-			<p> var medianIncome = 47144.32836; </p>
+			
 		</div>
 
 		<canvas id="myChart"></canvas>
